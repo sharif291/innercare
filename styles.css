@@ -1,0 +1,812 @@
+@font-face {
+  font-family: "HeaderFont";
+  src: url("fonts/header.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Reset styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body styles */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+.row {
+  display: flex;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Editor interface */
+.editor {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.editor h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.editor-field {
+  margin-bottom: 25px;
+}
+
+.editor-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 16px;
+}
+
+.editor-field input,
+.editor-field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.editor-field input:focus,
+.editor-field textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Preview layout */
+.preview {
+  padding: 20px;
+}
+
+.preview h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Newspaper layout */
+#newspaperPreview {
+  margin-top: 20px;
+}
+
+.page {
+  position: relative;
+  padding: 40px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 10px;
+  height: 297mm;
+  width: 210mm;
+  font-size: 18px; /* Base font size for the whole page */
+}
+
+.page-title {
+  font-family: "HeaderFont", Arial, sans-serif;
+  text-align: center;
+  font-size: 65px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative; /* Ensure the header is relatively positioned */
+  z-index: 2;
+}
+
+.emblem-container {
+  width: 4cm;
+  height: 4cm;
+  margin-right: 0.5cm; /* Space between emblem and title */
+  margin-top: 0cm; /* Move the emblem up by 1cm */
+}
+
+.emblem-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.title-container {
+  text-align: center;
+}
+
+.page-header p {
+  font-size: 18px;
+}
+
+.section-preview {
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-preview h3 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.section-preview img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.section-preview p {
+  font-size: 20px;
+  line-height: 1.4;
+}
+.page6 .section-preview {
+  margin-bottom: 20px;
+}
+
+/* Page specific styles */
+.page1 .section-preview,
+.page3 .section-preview,
+.page3 .section-preview {
+  width: 48%;
+  float: left;
+  /* margin-right: 2%; */
+}
+
+.page2 .section-preview,
+.page4 .section-preview {
+  width: 100%;
+  clear: both;
+}
+
+.page4 .grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.page6 .grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.page4 .grid-container .grid-item h3 {
+  font-size: 22px; /* Title on sections 8, 9 and 10 */
+}
+
+.page4 .grid-container .grid-item ul,
+.page4 .grid-container .grid-item p {
+  font-size: 16px; /* Text on sections 8, 9 and 10 */
+}
+
+.page4 .grid-item {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.page4 .grid-item:nth-child(1) ul,
+.page4 .grid-item:nth-child(2) ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.page4 .grid-item:nth-child(3) p {
+  margin: 0;
+}
+
+/* Footer styles */
+.page-footer {
+  position: absolute;
+  bottom: 5mm;
+  left: 15mm;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  color: #777;
+  padding-right: 0mm;
+}
+
+/* Clear float */
+.page::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Action buttons */
+.action-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.action-buttons button {
+  font-size: 18px;
+  padding: 12px 24px;
+  margin: 0 10px;
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  color: #777;
+  margin-top: 8px;
+}
+
+/* General image styles */
+.section-preview img {
+  width: 100%; /* Use 100% of the container's width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the image fits within its container while maintaining aspect ratio */
+  display: block; /* Remove any inline elements space */
+  margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Specific styles for sections 3 and 4 (on page 2) */
+.page2 .section-preview img {
+  max-width: 9cm !important;
+  max-height: 7cm !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+.page2 .image-container {
+  width: 40%;
+  padding-right: 7mm;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 6cm; /* Set a fixed height */
+}
+
+.page2 .image-container img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.page2 .text-container {
+  width: 50%;
+}
+
+/* Specific styles for sections 1 and 2 (on page 1) */
+.page1 .section-preview img {
+  height: 5.5cm;
+  width: 9.5cm;
+  object-fit: cover;
+}
+
+/* Specific styles for sections 5 and 6 (on page 3) */
+.page3 .section-preview img {
+  height: 9.5cm;
+  width: 9.5cm;
+  object-fit: cover;
+}
+/* Specific styles for sections 11 and 12 (on page 6) */
+.page6 .section-preview img {
+  height: 5.5cm;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Specific styles for section 7 (on page 4) */
+.page4 .section-preview:first-child {
+  text-align: left; /* Ensures text is left-aligned */
+}
+
+.page4 .section-preview:first-child img {
+  height: 14cm;
+  width: 19cm;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page4 .section-preview:first-child h3,
+.page4 .section-preview:first-child p {
+  text-align: left; /* Explicitly set left alignment for title and paragraph */
+}
+
+.page-logo {
+  position: absolute;
+  bottom: 7mm;
+  right: 15mm;
+  width: 57mm;
+  height: 20mm;
+  z-index: 10;
+}
+
+.page-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#carerSection textarea {
+  width: 100%;
+  height: 300px;
+  resize: vertical;
+}
+
+.section input[type="url"],
+.section input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.section img {
+  max-width: 200px;
+  margin-top: 10px;
+}
+
+.page1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.page2 {
+  display: flex;
+  flex-direction: column;
+  height: 297mm;
+  width: 210mm;
+}
+
+.page2 .page2-section {
+  height: 45%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3mm;
+}
+
+.page2 .section-content {
+  display: flex;
+  flex-grow: 1;
+  align-items: stretch; /* This ensures both containers stretch to full height */
+}
+
+.page2 .image-container {
+  width: 40%;
+  padding-right: 7mm;
+}
+
+.page2 .image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.page2 .text-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page2 h3 {
+  margin-bottom: 5mm;
+}
+
+.page2 .text-container p {
+  margin-bottom: 5mm;
+}
+
+.page2 .memory-box {
+  border: 1px solid #ccc;
+  padding: 5mm;
+  flex-grow: 0;
+}
+
+.page2 .memory-box h4 {
+  margin-bottom: 3mm;
+  font-size: 14px;
+}
+
+.page2 .memory-lines {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 4mm;
+  height: 3mm;
+}
+
+/* Regular styles for web view */
+.page1 .section-preview,
+.page3 .section-preview {
+  width: 46%; /* Adjust width to ensure more space between columns */
+  float: left;
+  margin-bottom: 20px; /* Ensure space between sections */
+}
+
+.page1 .section-preview:nth-child(even),
+.page3 .section-preview:nth-child(even),
+.page6 .section-preview:nth-child(even) {
+  float: right;
+  margin-left: 2%;
+}
+
+.page1 .section-preview:nth-child(odd),
+.page3 .section-preview:nth-child(odd),
+.page6 .section-preview:nth-child(odd) {
+  margin-right: 2%;
+}
+
+.page1 .section-preview h3,
+.page3 .section-preview h3,
+.page6 .section-preview h3,
+.page1 .section-preview p,
+.page3 .section-preview p,
+.page6 .section-preview p {
+  text-align: left;
+}
+
+/* Add margin to images on pages 1, 3, and 4 */
+.page1 .section-preview img,
+.page3 .section-preview img,
+.page6 .section-preview img,
+.page4 .section-preview img {
+  margin-bottom: 7mm;
+}
+
+/* Specific adjustment for page 4's first section (section 7) */
+.page4 .section-preview:first-child img {
+  margin-bottom: 7mm;
+}
+
+.date-location-container {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  margin-top: 0mm; /* Adjust this value to control the space between title and date/location */
+  margin-bottom: 4mm; /* Adjust this value to control the space between date/location and sections */
+}
+
+.date-location-container p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.page5,
+.page6 {
+  font-size: 12pt;
+  line-height: 1.5;
+}
+
+#carerSection1Content,
+#carerSection2Content {
+  overflow: hidden;
+  max-height: 240mm; /* Adjust if needed based on your page layout */
+  padding: 1mm; /* Add some padding inside the content area */
+}
+
+#carerSection1Content p,
+#carerSection2Content p {
+  margin: 2px 0px;
+}
+#carerSection1Content p span,
+#carerSection2Content p span {
+  font-weight: 600;
+  font-size: 20px;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.page5 h3 {
+  margin-top: 0;
+  margin-bottom: 10mm;
+}
+
+.page.page2 .page2-image-container {
+  max-width: 9cm;
+  max-height: 7cm;
+  overflow: hidden;
+}
+
+/* Print styles */
+@media print {
+  /* General print styles */
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px; /* Adjust as necessary */
+    line-height: 1.6; /* Ensure consistent line height */
+    /* Add other necessary general styles */
+  }
+
+  @font-face {
+    font-family: "HeaderFont";
+    src: url("fonts/header.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .page-logo {
+    display: block !important;
+    position: absolute;
+    bottom: 28px !important;
+    /* right: 50px !important; */
+    width: 57mm;
+    height: 20mm;
+  }
+
+  .page-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .page-title {
+    font-family: "HeaderFont", Arial, sans-serif;
+    font-size: 65px !important; /* Ensure the font size is applied */
+    margin: 0 !important;
+  }
+
+  .section-preview h3 {
+    font-size: 28px !important; /* Example specific to your .section-preview h3 */
+  }
+
+  .section-preview p {
+    font-size: 20px !important; /* Example specific to your .section-preview p */
+  }
+
+  .page-footer {
+    font-size: 14px !important; /* Example specific to your .page-footer */
+  }
+
+  /* Specific styles for .page4 .grid-container .grid-item */
+  .page4 .grid-container .grid-item h3 {
+    font-size: 22pt; /* Adjust as necessary */
+    /* Include font-family and other necessary styles */
+  }
+
+  .page4 .grid-container .grid-item ul,
+  .page4 .grid-container .grid-item p {
+    font-size: 16pt; /* Adjust as necessary */
+    /* Include font-family and other necessary styles */
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 14mm;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    background-color: white;
+  }
+
+  .page1 .section-preview h3 {
+    margin-top: 0px; /* Adjust this value as needed */
+  }
+
+  .page1 .section-preview,
+  .page3 .section-preview {
+    width: 48%;
+    float: left;
+  }
+  .page6 .section-preview {
+    float: left;
+  }
+
+  .page1 .section-preview:nth-child(even),
+  .page3
+    .section-preview:nth-child(even)
+    .page6
+    .section-preview:nth-child(even) {
+    margin-right: 0;
+  }
+
+  .page-header {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .page1 .section-preview,
+  .page3 .section-preview {
+    width: 46%; /* Adjust width to ensure more space between columns */
+    float: left;
+    margin-bottom: 20px; /* Ensure space between sections */
+  }
+  .page6 .section-preview {
+    float: left;
+    margin-bottom: 20px;
+  }
+
+  .page1 .section-preview:nth-child(even),
+  .page3 .section-preview:nth-child(even),
+  .page6 .section-preview:nth-child(even) {
+    float: right;
+    margin-left: 2%;
+  }
+
+  .page1 .section-preview:nth-child(odd),
+  .page3 .section-preview:nth-child(odd),
+  .page6 .section-preview:nth-child(odd) {
+    margin-right: 2%;
+  }
+
+  .page1 .section-preview h3,
+  .page3 .section-preview h3,
+  .page6 .section-preview h3,
+  .page1 .section-preview p,
+  .page3 .section-preview p,
+  .page6 .section-preview p {
+    text-align: left;
+  }
+
+  .emblem-container {
+    width: 4cm !important;
+    height: 4cm !important;
+    margin-right: 0.5cm !important;
+    margin-top: 0cm !important;
+  }
+
+  .emblem-container img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .title-container {
+    text-align: center !important;
+  }
+
+  .date-location-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .date-location-container p {
+    margin: 0;
+    font-size: 18px !important;
+    line-height: 1;
+  }
+}
+
+.page1 .section-preview:first-child,
+.page3 .section-preview:first-child,
+.page6 .section-preview:first-child {
+  margin-top: 0; /* Ensure the first section starts at the top */
+}
+
+.page2 {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 297mm !important;
+  width: 210mm !important;
+}
+
+.page2 .page2-section {
+  height: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 3mm !important;
+}
+
+.page2 .section-content {
+  display: flex !important;
+  flex-grow: 0 !important;
+  align-items: stretch !important;
+}
+
+.page2 .image-container {
+  width: 40% !important;
+  padding-right: 7mm !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: 5cm !important; /* Set a fixed height */
+}
+
+.page2 .text-container {
+  width: 60% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.page2 h3 {
+  margin-bottom: 2mm !important;
+}
+
+.page2 .text-container p {
+  margin-bottom: 2mm !important;
+}
+
+.page2 .memory-box {
+  padding: 5mm !important;
+  margin-top: 3mm;
+}
+
+/* Clear float */
+.page::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.page1 .section-preview img,
+.page3 .section-preview img,
+.page6 .section-preview img,
+.page5 .section-preview img,
+.page4 .section-preview img {
+  margin-bottom: 7mm !important;
+}
+
+.page6 .section-preview:not(:first-child) img {
+  height: 7.5cm;
+}
+.page4 .section-preview:first-child img {
+  margin-bottom: 7mm !important;
+}
+
+.full-width {
+  width: 100%;
+}

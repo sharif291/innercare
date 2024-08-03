@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newspaper Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="editor">
+            <h2>Newspaper Editor</h2>
+
+            <div class="editor-field">
+                <label for="jsonInput">Paste JSON Data:</label>
+                <textarea id="jsonInput" rows="5"></textarea>
+            </div>
+
+            <button onclick="fillSections()">Fill Sections</button>
+
+            <div class="editor-field">
+                <label for="title">Newspaper Title:</label>
+                <input type="text" id="title" oninput="updateTitleAndEmblem()">
+            </div>
+
+            <div class="editor-field">
+                <label for="location">Location:</label>
+                <input type="text" id="location" oninput="updateDateLocation()">
+            </div>
+
+            <div class="editor-field">
+                <label for="month">Month:</label>
+                <select id="month" onchange="updateDateLocation()">
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                </select>
+                <label for="year">Year:</label>
+                <select id="year" onchange="updateDateLocation()">
+                    <option>2024</option>
+                    <option>2025</option>
+                    <option>2026</option>
+                    <option>2027</option>
+                    <option>2028</option>
+                    <option>2029</option>
+                    <option>2030</option>
+                </select>
+            </div>
+
+            <div class="editor-field">
+                <label for="logoUpload">Upload Logo:</label>
+                <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)">
+                <input type="hidden" id="logoImage">
+                <img id="logoPreview" src="" alt="Logo Preview" style="display: none; max-width: 200px; margin-top: 10px;">
+            </div>
+
+            <div class="editor-field">
+                <label for="emblemUpload">Upload Emblem:</label>
+                <input type="file" id="emblemUpload" accept="image/*" onchange="handleEmblemUpload(event)">
+                <input type="hidden" id="emblemImage">
+                <img id="emblemPreview" src="" alt="Emblem Preview" style="display: none; max-width: 3cm; max-height: 3cm; margin-top: 10px;">
+            </div>
+
+            <div id="sectionFields">
+                <!-- Sections will be dynamically added here -->
+            </div>
+
+            <!-- New Carer's Section -->
+            <div id="carerSection" class="section">
+                <h3 class="section-title">Section 11 - Carer's Section</h3>
+                <textarea id="carerContent" rows="10" cols="50"></textarea>
+                <button onclick="exportCarersSection()">Export Carer's Section to RTF</button>
+            </div>
+
+            <button onclick="previewNewspaper()">Preview Newspaper</button>
+        </div>
+
+        <div class="preview">
+            <h2>Print Layout Preview</h2>
+            <div id="newspaperPreview">
+                <div class="page" id="page1">
+                    <div id="newspaperTitle" class="page-title"></div>
+                    <div id="dateLocation" class="date-location-container"></div>
+                </div>
+                <div class="page" id="page2"></div>
+                <div class="page" id="page3"></div>
+                <div class="page" id="page4"></div>
+                <div class="page" id="page5">
+                    <h3>Carer's Section - Part 1</h3>
+                    <div id="carerSection1Content"></div>
+                </div>
+                <div class="page" id="page6">
+                    <h3>Carer's Section - Part 2</h3>
+                    <div id="carerSection2Content"></div>
+                </div>
+            </div>
+            <button onclick="exportToPDF()">Export to PDF</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
