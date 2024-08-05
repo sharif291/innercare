@@ -538,24 +538,51 @@ function previewNewspaper() {
 
             // Load the image before adding the section
             loadSectionImage(i);
-
-            // let sectionHTML = `
-            //         <div class="section-preview">
-            //             <h3>${sectionTitle}</h3>
-            //             ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
-            //             <p>${sectionContent}</p>
-            //         </div>
-            //     `;
             if (i == 10) {
+                const paragraphs = sectionContent.split('.');
+                // Create a temporary container to measure the content
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.visibility = 'hidden';
+                tempContainer.style.width = '190mm';  // A4 width minus padding
+                tempContainer.style.fontSize = '12pt';
+                tempContainer.style.lineHeight = '1.5';
+                document.body.appendChild(tempContainer);
+
+                // Function to measure height of content
+                const measureHeight = (content) => {
+                    tempContainer.innerHTML = content;
+                    return tempContainer.offsetHeight;
+                };
+                let part1 = '';
+                let part2 = '';
+                // Calculate the total height needed for all paragraphs
+                let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`${para}`), 0);
+                console.log("totla height", totalHeight)
+                const maxHeightPerPage = totalHeight / 2; // Increased height in mm for content area
+                // Calculate the height limit for part1 to ensure balanced content
+                let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
+                // Distribute content across two parts with a balanced split
+                let currentHeight = 0;
+                for (let para of paragraphs) {
+                    let content = para + ".";
+                    const paraHeight = measureHeight(content);
+                    if (currentHeight + paraHeight <= part1HeightLimit) {
+                        part1 += content;
+                        currentHeight += paraHeight;
+                    } else {
+                        part2 += content;
+                    }
+                }
                 let sectionHTML = `<div class="section-preview">
                 <h3>${sectionTitle}</h3>
                 ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
                 <div class="grid-container">
                     <div class="grid-item">
-                        <p>${sectionContent.slice(0, sectionContent.length / 2)}</p>
+                        <p>${part1}</p>
                     </div>
                     <div class="grid-item">
-                        <p>${sectionContent.slice(sectionContent.length / 2, sectionContent.length - 1)}</p>
+                        <p>${part2}</p>
                     </div>
                 </div>
             </div>`;
@@ -623,7 +650,6 @@ function previewNewspaper() {
             let content = `<p>${para}</p>`;
             content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>')
 
-            console.log("pppppppppp", content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>'))
             const paraHeight = measureHeight(content);
 
             if (currentHeight + paraHeight <= part1HeightLimit) {
