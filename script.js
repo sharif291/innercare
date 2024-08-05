@@ -49,10 +49,11 @@ function fillSections() {
             else if (index < 6) characterLimit = 575;
             else if (index === 6) characterLimit = 150;
             else if (index < 9) lineLimit = 8;
-            else if (index == 9) lineLimit = 215;
-            else if (index == 10) lineLimit = 675;
-            else if (index == 11) lineLimit = 325;
+            else if (index == 9) characterLimit = 215;
+            else if (index == 10) characterLimit = 675;
+            else if (index == 11) characterLimit = 325;
             else characterLimit = 120;
+            
 
             let sectionHTML = `
                 <div class="section">
@@ -91,8 +92,6 @@ function fillSections() {
         }
     });
 }
-
-
 function handleLogoUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -127,16 +126,6 @@ function handleLogoUpload(event) {
         reader.readAsDataURL(file);
     }
 }
-
-
-
-function updateCharCount(textarea) {
-    const maxLength = textarea.getAttribute('maxlength');
-    const currentLength = textarea.value.length;
-    const countDisplay = textarea.nextElementSibling;
-    countDisplay.textContent = `${currentLength} / ${maxLength}`;
-}
-
 function updateLineCount(textarea) {
     const maxLines = 8;
     const lines = textarea.value.split('\n');
@@ -148,7 +137,6 @@ function updateLineCount(textarea) {
         textarea.value = lines.slice(0, maxLines).join('\n');
     }
 }
-
 function handleImageUpload(event, index) {
     let file = event.target.files[0];
     if (file) {
@@ -218,50 +206,12 @@ function handleImageUpload(event, index) {
         reader.readAsDataURL(file);
     }
 }
-
-function loadSectionImage(index) {
-    const urlInput = document.getElementById(`imageUrl${index}`);
-    const fileInput = document.getElementById(`file${index}`);
-    const preview = document.getElementById(`imagePreview${index}`);
-    const hiddenInput = document.getElementById(`image${index}`);
-
-    if (urlInput.value) {
-        // Try loading the image from the URL
-        const img = new Image();
-        img.onload = function () {
-            preview.src = this.src;
-            preview.style.display = 'block';
-            hiddenInput.value = this.src;
-        };
-        img.onerror = function () {
-            alert(`Failed to load image from URL for Section ${index + 1}. Please upload an image manually.`);
-            urlInput.value = '';
-            preview.style.display = 'none';
-            hiddenInput.value = '';
-        };
-        img.src = urlInput.value;
-    } else if (fileInput.files && fileInput.files[0]) {
-        // Use the manually uploaded image
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            hiddenInput.value = e.target.result;
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        preview.style.display = 'none';
-        hiddenInput.value = '';
-    }
-}
-
 function updateCharCount(textarea) {
     const maxLength = textarea.getAttribute('maxlength');
     const currentLength = textarea.value.length;
     const countDisplay = textarea.nextElementSibling;
     countDisplay.textContent = `${currentLength} / ${maxLength}`;
 }
-
 // Function to preview newspaper layout
 function previewNewspaper() {
     console.log("Previewing newspaper...");
@@ -691,13 +641,11 @@ function previewNewspaper() {
     // Append pages to the preview container
     pages.forEach(page => document.getElementById('newspaperPreview').appendChild(page));
 }
-
 // Helper function to convert text to list items
 function convertToList(content) {
     console.log("content", content)
     return content.split(',').map(item => `<li>${item}</li>`).join('');
 }
-
 // Helper function to load images before adding sections
 function loadSectionImage(index) {
     let imageElement = document.getElementById(`image${index}`);
@@ -707,9 +655,6 @@ function loadSectionImage(index) {
         img.src = imageUrl;
     }
 }
-
-
-
 async function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
@@ -809,9 +754,6 @@ async function exportToPDF() {
 
     pdf.save('newspaper.pdf');
 }
-
-// Add this function to handle emblem upload
-// Add this function to handle emblem upload
 function handleEmblemUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -854,7 +796,6 @@ function handleEmblemUpload(event) {
         reader.readAsDataURL(file);
     }
 }
-
 function updateTitleAndEmblem() {
     const title = document.getElementById('title').value;
     const emblemSrc = document.getElementById('emblemImage').value;
@@ -862,7 +803,6 @@ function updateTitleAndEmblem() {
     document.getElementById('newspaperTitle').innerText = title;
     document.getElementById('emblemPreview').src = emblemSrc;
 }
-
 function updateDateLocation() {
     const location = document.getElementById('location').value;
     const month = document.getElementById('month').value;
@@ -876,7 +816,6 @@ function updateDateLocation() {
         `;
     });
 }
-
 function exportCarersSection() {
     const carersSectionMarkdown = document.getElementById("carerContent").value;
     if (!carersSectionMarkdown.trim()) {
@@ -983,6 +922,3 @@ function exportCarersSection() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-
-
-
