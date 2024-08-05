@@ -49,6 +49,9 @@ function fillSections() {
             else if (index < 6) characterLimit = 575;
             else if (index === 6) characterLimit = 150;
             else if (index < 9) lineLimit = 8;
+            else if (index == 9) lineLimit = 215;
+            else if (index == 10) lineLimit = 675;
+            else if (index == 11) lineLimit = 325;
             else characterLimit = 120;
 
             let sectionHTML = `
@@ -171,6 +174,18 @@ function handleImageUpload(event, index) {
                 } else if (index === 6) {
                     canvas.width = 719; // 19cm at 300 DPI
                     canvas.height = 530; // 14cm at 300 DPI
+                }
+                else if (index === 9) {
+                    canvas.width = 719; // 19cm at 300 DPI
+                    canvas.height = 800;
+                }
+                else if (index === 10) {
+                    canvas.width = 719; // 19cm at 300 DPI
+                    canvas.height = 208;
+                }
+                else if (index === 11) {
+                    canvas.width = 360;
+                    canvas.height = 300;
                 }
 
                 // Calculate dimensions for cropping
@@ -447,7 +462,7 @@ function previewNewspaper() {
             let sectionContent = document.getElementById(`content${i}`).value;
 
             let sectionHTML;
-            if (i < 8) {
+            if (i < 9) {
                 // Sections 8 and 9: Lists without bullets
                 sectionHTML = `
                     <div class="section-preview grid-item small-font-section">
@@ -494,8 +509,8 @@ function previewNewspaper() {
         let section10HTML = `
             <div class="section-preview">
                 <h3>${sectionTitle10}</h3>
-                ${sectionImage10 ? `<img src="${sectionImage10}" alt="${sectionTitle10} Image">` : ''}
                 <p>${sectionContent10}</p>
+                ${sectionImage10 ? `<img src="${sectionImage10}" alt="${sectionTitle10} Image">` : ''}
             </div>
         `;
         page5.innerHTML += section10HTML;
@@ -606,9 +621,9 @@ function previewNewspaper() {
         let currentHeight = 0;
         for (let para of paragraphs) {
             let content = `<p>${para}</p>`;
-            content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n','</span>')
+            content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>')
 
-            console.log("pppppppppp", content.replace(/#\d+\./, '<span class="list-title">').replace('\n','</span>'))
+            console.log("pppppppppp", content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>'))
             const paraHeight = measureHeight(content);
 
             if (currentHeight + paraHeight <= part1HeightLimit) {
@@ -653,7 +668,8 @@ function previewNewspaper() {
 
 // Helper function to convert text to list items
 function convertToList(content) {
-    return content.split('\n').map(item => `<li>${item}</li>`).join('');
+    console.log("content", content)
+    return content.split(',').map(item => `<li>${item}</li>`).join('');
 }
 
 // Helper function to load images before adding sections
