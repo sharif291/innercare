@@ -53,7 +53,7 @@ function fillSections() {
             else if (index == 10) characterLimit = 675;
             else if (index == 11) characterLimit = 325;
             else characterLimit = 120;
-            
+
 
             let sectionHTML = `
                 <div class="section">
@@ -154,8 +154,8 @@ function handleImageUpload(event, index) {
                     canvas.height = 208; // 5.5cm at 300 DPI
                 } else if (index < 4) {
                     // Adjust dimensions for page 2
-                    canvas.width = 264; // 7cm at 300 DPI
-                    canvas.height = 264; // 7cm at 300 DPI (square image for page 2)
+                    canvas.width = 390; // 7cm at 300 DPI
+                    canvas.height = 260; // 7cm at 300 DPI (square image for page 2)
                 } else if (index < 6) {
                     canvas.width = 360; // 9.5cm at 300 DPI
                     canvas.height = 360; // 9.5cm at 300 DPI
@@ -273,7 +273,7 @@ function previewNewspaper() {
         for (let i = 0; i < 2; i++) {
             let sectionTitle = document.getElementById(`title${i}`)?.value || `Section ${i + 1}`;
             let sectionContent = document.getElementById(`content${i}`)?.value || '';
-            let sectionImage = document.getElementById(`image${i}`)?.value || '';
+            let sectionImage = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "" || '';
 
             // Load the image before adding the section
             loadSectionImage(i);
@@ -308,7 +308,7 @@ function previewNewspaper() {
         for (let i = 2; i < 4; i++) {
             let sectionTitle = document.getElementById(`title${i}`).value;
             let sectionContent = document.getElementById(`content${i}`).value;
-            let sectionImage = document.getElementById(`image${i}`).value;
+            let sectionImage = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "";
 
             // Load the image before adding the section
             loadSectionImage(i);
@@ -356,7 +356,7 @@ function previewNewspaper() {
         for (let i = 4; i < 6; i++) {
             let sectionTitle = document.getElementById(`title${i}`).value;
             let sectionContent = document.getElementById(`content${i}`).value;
-            let sectionImage = document.getElementById(`image${i}`).value;
+            let sectionImage = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "";
 
             // Load the image before adding the section
             loadSectionImage(i);
@@ -389,7 +389,7 @@ function previewNewspaper() {
         let i = 6; // Index for section 7
         let sectionTitle7 = document.getElementById(`title${i}`).value;
         let sectionContent7 = document.getElementById(`content${i}`).value;
-        let sectionImage7 = document.getElementById(`image${i}`).value;
+        let sectionImage7 = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "";
 
         // Load the image before adding the section
         loadSectionImage(i);
@@ -451,7 +451,7 @@ function previewNewspaper() {
         let i = 9; // Index for section 10
         let sectionTitle10 = document.getElementById(`title${i}`).value;
         let sectionContent10 = document.getElementById(`content${i}`).value;
-        let sectionImage10 = document.getElementById(`image${i}`).value;
+        let sectionImage10 = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "";
 
         // Load the image before adding the section
         loadSectionImage(i);
@@ -484,7 +484,7 @@ function previewNewspaper() {
         for (let i = 10; i < 12; i++) {
             let sectionTitle = document.getElementById(`title${i}`).value;
             let sectionContent = document.getElementById(`content${i}`).value;
-            let sectionImage = document.getElementById(`image${i}`).value;
+            let sectionImage = document.getElementById(`image${i}`)?.value || document.getElementById(`imageUrl${i}`)?.value || "";
 
             // Load the image before adding the section
             loadSectionImage(i);
@@ -586,7 +586,7 @@ function previewNewspaper() {
 
         let part1 = '';
         let part2 = '';
-        const maxHeightPerPage = 550; // Increased height in mm for content area
+        const maxHeightPerPage = 650; // Increased height in mm for content area
 
         // Calculate the total height needed for all paragraphs
         let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`<p>${marked(para)}</p>`), 0);
@@ -656,6 +656,9 @@ function loadSectionImage(index) {
     }
 }
 async function exportToPDF() {
+    const btn = document.getElementById("exportToPDF")
+    btn.innerText = "Loading...";
+    btn.style.pointerEvents = "none";
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pages = document.querySelectorAll('.page');
@@ -753,6 +756,8 @@ async function exportToPDF() {
     }
 
     pdf.save('newspaper.pdf');
+    btn.innerText = "Export to PDF";
+    btn.style.pointerEvents = "auto";
 }
 function handleEmblemUpload(event) {
     const file = event.target.files[0];

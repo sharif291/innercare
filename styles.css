@@ -122,7 +122,7 @@ button:hover {
 
 .page {
   position: relative;
-  padding: 40px;
+  padding: 30px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
   background-color: white;
@@ -338,13 +338,13 @@ button:hover {
 
 /* Specific styles for sections 5 and 6 (on page 3) */
 .page3 .section-preview img {
-  height: 9.5cm;
+  height: 5.5cm;
   width: 9.5cm;
   object-fit: cover;
 }
 /* Specific styles for sections 11 and 12 (on page 6) */
 .page6 .section-preview img {
-  /* height: 5.5cm; */
+  height: 5.5cm;
   width: 100%;
   object-fit: cover;
 }
@@ -749,7 +749,7 @@ button:hover {
 }
 
 .page2 .page2-section {
-  height: 45% !important;
+  height: 50% !important;
   display: flex !important;
   flex-direction: column !important;
   margin-bottom: 3mm !important;
@@ -762,7 +762,7 @@ button:hover {
 }
 
 .page2 .image-container {
-  width: 30% !important;
+  width: 42% !important;
   padding-right: 7mm !important;
   display: flex !important;
   align-items: center !important;
@@ -771,7 +771,7 @@ button:hover {
 }
 
 .page2 .text-container {
-  width: 70% !important;
+  width: 58% !important;
   display: flex !important;
   flex-direction: column !important;
 }
@@ -805,7 +805,7 @@ button:hover {
 }
 
 .page6 .section-preview:not(:first-child) img {
-  height: 8.5cm;
+  height: 7.5cm;
 }
 .page4 .section-preview:first-child img {
   margin-bottom: 7mm !important;
