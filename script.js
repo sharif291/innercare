@@ -592,7 +592,8 @@ function previewNewspaper() {
         let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`<p>${marked(para)}</p>`), 0);
         console.log("totla height", totalHeight)
         // Calculate the height limit for part1 to ensure balanced content
-        let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
+        // let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
+        let part1HeightLimit = maxHeightPerPage
 
         // Distribute content across two parts with a balanced split
         let currentHeight = 0;
