@@ -540,7 +540,7 @@ function previewNewspaper() {
             }
             if (i == 11) {
                 let sectionHTML = `<div class="section-preview full-width">
-                <h3>Section 12</h3>
+                <h3>${sectionTitle}</h3>
                 <div class="grid-container">
                     <div class="grid-item">${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}</div>
                     <div class="grid-item">
