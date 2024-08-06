@@ -489,7 +489,7 @@ function previewNewspaper() {
             // Load the image before adding the section
             loadSectionImage(i);
             if (i == 10) {
-                const paragraphs = sectionContent.split('.');
+                const paragraphs = sectionContent.split(/(?<=[.?!])\s+(?=[A-Z])/g);
                 // Create a temporary container to measure the content
                 const tempContainer = document.createElement('div');
                 tempContainer.style.position = 'absolute';
@@ -509,7 +509,7 @@ function previewNewspaper() {
                 // Calculate the total height needed for all paragraphs
                 let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`${para}`), 0);
                 console.log("totla height", totalHeight)
-                const maxHeightPerPage = totalHeight / 2; // Increased height in mm for content area
+                const maxHeightPerPage = (totalHeight / 2) + 1; // Increased height in mm for content area
                 // Calculate the height limit for part1 to ensure balanced content
                 let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
                 // Distribute content across two parts with a balanced split
