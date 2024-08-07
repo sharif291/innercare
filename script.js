@@ -509,9 +509,10 @@ function previewNewspaper() {
                 // Calculate the total height needed for all paragraphs
                 let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`${para}`), 0);
                 console.log("totla height", totalHeight)
-                const maxHeightPerPage = (totalHeight / 2) + 1; // Increased height in mm for content area
+                const maxHeightPerPage = 120; // Increased height in mm for content area
                 // Calculate the height limit for part1 to ensure balanced content
-                let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
+                let part1HeightLimit = maxHeightPerPage
+                // let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
                 // Distribute content across two parts with a balanced split
                 let currentHeight = 0;
                 for (let para of paragraphs) {
@@ -586,7 +587,7 @@ function previewNewspaper() {
 
         let part1 = '';
         let part2 = '';
-        const maxHeightPerPage = 650; // Increased height in mm for content area
+        const maxHeightPerPage = 590; // Increased height in mm for content area
 
         // Calculate the total height needed for all paragraphs
         let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`<p>${marked(para)}</p>`), 0);
