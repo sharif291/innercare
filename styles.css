@@ -192,6 +192,7 @@ button:hover {
   font-size: 20px;
   line-height: 1.4;
   text-align: justify !important;
+  hyphens: auto;
 }
 .page6 .section-preview {
   margin-bottom: 20px;
@@ -538,7 +539,7 @@ button:hover {
 #carerSection2Content {
   overflow: hidden;
   max-height: 240mm; /* Adjust if needed based on your page layout */
-  padding: 1mm; /* Add some padding inside the content area */
+  padding: 0mm; /* Add some padding inside the content area */
 }
 
 #carerSection1Content p,
