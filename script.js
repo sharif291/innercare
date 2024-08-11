@@ -715,7 +715,7 @@ function previewNewspaper() {
             return tempContainer.offsetHeight;
         };
     
-        const maxHeightPerPage = 550; // Max height in mm for content area
+        const maxHeightPerPage = 450; // Max height in mm for content area
         let currentHeight = 0;
         let pageContents = [];
         let currentPageContent = '';
@@ -755,7 +755,7 @@ function previewNewspaper() {
             page.classList.add('page', `page${index + 7}`);
             page.innerHTML = `
                 <h3>Carer's Section - Part ${index + 1}</h3>
-                <div id="carerSection${index + 1}Content">${content}</div>
+                <div id="carerSection${index + 1}Content" class="carerSectionContent">${content}</div>
                 <div class="page-footer">Page ${index + 7}. Copyright 2024 Mypaper.uk</div>
             `;
             addLogoToPage(page);

@@ -415,7 +415,7 @@ button:hover {
 }
 
 .page2 .page2-section {
-  height: 45%;
+  max-height: 45%;
   display: flex;
   flex-direction: column;
   margin-bottom: 3mm;
@@ -535,19 +535,19 @@ button:hover {
   line-height: 1.5;
 }
 
-#carerSection1Content,
-#carerSection2Content {
+.carerSectionContent {
   overflow: hidden;
-  max-height: 240mm; /* Adjust if needed based on your page layout */
+  height: 240mm; /* Adjust if needed based on your page layout */
   padding: 0mm; /* Add some padding inside the content area */
 }
 
-#carerSection1Content p,
-#carerSection2Content p {
+.carerSectionContent p,
+.carerSectionContent p {
   margin: 2px 0px;
+  margin-bottom: 20px;
 }
-#carerSection1Content p span,
-#carerSection2Content p span {
+.carerSectionContent p span,
+.carerSectionContent p span {
   font-weight: 600;
   font-size: 20px;
   display: block;
@@ -750,7 +750,7 @@ button:hover {
 }
 
 .page2 .page2-section {
-  height: 50% !important;
+  max-height: 50% !important;
   display: flex !important;
   flex-direction: column !important;
   margin-bottom: 3mm !important;
