@@ -295,7 +295,7 @@ button:hover {
 .section-preview img {
   width: 100%; /* Use 100% of the container's width */
   height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure the image fits within its container while maintaining aspect ratio */
+  object-fit: cover; /* Ensure the image fits within its container while maintaining aspect ratio */
   display: block; /* Remove any inline elements space */
   margin: 0 auto; /* Center the image horizontally */
 }

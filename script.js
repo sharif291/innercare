@@ -66,14 +66,17 @@ function fillSections() {
                     <label for="imageKeyword${index}">Image Keyword:</label>
                     <input type="text" id="imageKeyword${index}" value="${section.ImageKeyword || ''}">
                     <label for="imageUrl${index}">Wikimedia Commons URL:</label>
-                    <input type="url" id="imageUrl${index}" value="${section.WikimediaCommonsURL || ''}" placeholder="https://commons.wikimedia.org/wiki/...">
+                    <input type="url" id="imageUrl${index}"  placeholder="https://commons.wikimedia.org/wiki/..." onchange="handleImageInput(this.value, ${index})">
                     <label for="file${index}">Upload Image:</label>
-                    <input type="file" id="file${index}" accept="image/jpeg, image/png" onchange="handleImageUpload(event, ${index})">
+                    <input type="file" id="file${index}" accept="image/jpeg, image/png" onchange="handleImageInput(event.target, ${index})">
                     <input type="hidden" id="image${index}">
                     <img id="imagePreview${index}" src="" alt="Image Preview" style="display: none; max-width: 200px; margin-top: 10px;">
                 </div>
             `;
             document.getElementById('sectionFields').innerHTML += sectionHTML;
+            if (section.WikimediaCommonsURL) {
+                handleImageInput(section.WikimediaCommonsURL, index)
+            }
         }
     });
 
@@ -160,6 +163,83 @@ function updateLineCount(textarea) {
 
     if (currentLines > maxLines) {
         textarea.value = lines.slice(0, maxLines).join('\n');
+    }
+}
+function handleImageInput(input, index) {
+    console.log("executing...", input, index)
+    let img = new Image();
+    img.crossOrigin = 'Anonymous'; // Allow cross-origin image loading
+
+    img.onload = function () {
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+        let aspectRatio = img.width / img.height;
+
+        // Set canvas dimensions based on section
+        if (index < 2) {
+            canvas.width = 360; // 9.5cm at 300 DPI
+            canvas.height = 208; // 5.5cm at 300 DPI
+        } else if (index < 4) {
+            canvas.width = 390; // 7cm at 300 DPI
+            canvas.height = 260; // 7cm at 300 DPI (square image for page 2)
+        } else if (index < 6) {
+            canvas.width = 360; // 9.5cm at 300 DPI
+            canvas.height = 360; // 9.5cm at 300 DPI
+        } else if (index === 6) {
+            canvas.width = 719; // 19cm at 300 DPI
+            canvas.height = 530; // 14cm at 300 DPI
+        }
+        else if (index === 9) {
+            canvas.width = 719; // 19cm at 300 DPI
+            canvas.height = 800;
+        }
+        else if (index === 10) {
+            canvas.width = 719; // 19cm at 300 DPI
+            canvas.height = 208;
+        }
+        else if (index === 11) {
+            canvas.width = 360;
+            canvas.height = 300;
+        }
+
+        // Calculate dimensions for cropping
+        let srcWidth = img.width;
+        let srcHeight = img.height;
+        let srcX = 0;
+        let srcY = 0;
+
+        if (aspectRatio > canvas.width / canvas.height) {
+            srcWidth = img.height * (canvas.width / canvas.height);
+            srcX = (img.width - srcWidth) / 2;
+        } else {
+            srcHeight = img.width / (canvas.width / canvas.height);
+            srcY = (img.height - srcHeight) / 2;
+        }
+
+        // Draw image on canvas (cropping in the process)
+        ctx.drawImage(img, srcX, srcY, srcWidth, srcHeight, 0, 0, canvas.width, canvas.height);
+
+        // Set the cropped image as the value
+        document.getElementById(`image${index}`).value = canvas.toDataURL('image/jpeg');
+
+        // Update image preview
+        let preview = document.getElementById(`imagePreview${index}`);
+        preview.src = canvas.toDataURL('image/jpeg');
+        preview.style.display = 'block';
+    }
+
+    // Check if input is a file or a URL
+    if (typeof input === 'string') {
+        img.src = input;  // If input is a URL
+    } else {
+        let file = input.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
     }
 }
 function handleImageUpload(event, index) {
@@ -682,7 +762,7 @@ async function exportToPDF() {
                 .page4 .section-preview:first-child img {
                     margin-bottom: 7mm !important;
                 }
-                .page6 .section-preview img { object-fit: cover; }
+                .page6 .section-preview img { object-fit: cover !important; }
                 .page2 { display: flex !important; flex-direction: column !important; height: 297mm !important; width: 210mm !important; padding: 14mm !important; }
                 .page2 .page2-section { height: 50% !important; display: flex !important; flex-direction: column !important; margin-bottom: 7mm !important; }
                 .page2 .section-content { display: flex !important; flex-grow: 1 !important; }
