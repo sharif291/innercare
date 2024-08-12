@@ -307,7 +307,7 @@ function previewNewspaper() {
                 <div class="section-preview">
                     <h3>${sectionTitle}</h3>
                     ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
-                    <p>${sectionContent}</p>
+                    <p id="section-preview-paragraph">${sectionContent}</p>
                 </div>
             `;
             sectionsContainer.innerHTML += sectionHTML;
@@ -346,9 +346,9 @@ function previewNewspaper() {
                     <div class="section-content">
                         <div class="row ">
                             <div class="image-container">
-                                ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
+                                ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : '<img src=""></img>'}
                             </div>
-                            <div class="text-container"><p>${sectionContent}</p></div>
+                            <div class="text-container"><p id="section-preview-paragraph">${sectionContent}</p></div>
                         </div>
                     </div>
                     <div class="memory-box">
@@ -390,7 +390,7 @@ function previewNewspaper() {
                 <div class="section-preview">
                     <h3>${sectionTitle}</h3>
                     ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
-                    <p>${sectionContent}</p>
+                    <p id="section-preview-paragraph">${sectionContent}</p>
                 </div>
             `;
             page3.innerHTML += sectionHTML;
@@ -450,7 +450,7 @@ function previewNewspaper() {
                 sectionHTML = `
                     <div class="section-preview grid-item small-font-section">
                         <h3>${sectionTitle}</h3>
-                        <p>${sectionContent}</p>
+                        <p id="section-preview-paragraph">${sectionContent}</p>
                     </div>
                 `;
             }
@@ -484,7 +484,7 @@ function previewNewspaper() {
         let section10HTML = `
             <div class="section-preview">
                 <h3>${sectionTitle10}</h3>
-                <p>${sectionContent10}</p>
+                <p id="section-preview-paragraph">${sectionContent10}</p>
                 ${sectionImage10 ? `<img src="${sectionImage10}" alt="${sectionTitle10} Image">` : ''}
             </div>
         `;
@@ -517,7 +517,7 @@ function previewNewspaper() {
                 let sectionHTML = `<div class="section-preview">
                 <h3>${sectionTitle}</h3>
                 ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
-                <p>${sectionContent}</p>
+                <p id="section-preview-paragraph">${sectionContent}</p>
             </div>`;
                 page6.innerHTML += sectionHTML;
             }
@@ -527,7 +527,7 @@ function previewNewspaper() {
                 <div class="grid-container">
                     <div class="grid-item">${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}</div>
                     <div class="grid-item">
-                        <p>${sectionContent}</p>
+                        <p id="section-preview-paragraph">${sectionContent}</p>
                     </div>
                 </div>
             </div>`;
@@ -622,6 +622,65 @@ function previewNewspaper() {
 
     // Append pages to the preview container
     pages.forEach(page => document.getElementById('newspaperPreview').appendChild(page));
+    // let _div = document.getElementById("section-preview-paragraph")
+    let _divs = document.querySelectorAll('[id=section-preview-paragraph]');
+    for (let _div of _divs) {
+        console.log(_div)
+        const content = _div.innerText;
+        const hyphenatedText = splitTextToMaxWidth(content, _div, _div.clientWidth - 40);
+        console.log(hyphenatedText)
+        _div.innerHTML = `${hyphenatedText}`
+    }
+}
+function splitTextToMaxWidth(text, div, maxWidth) {
+    // console.log("original text", text)
+    const tempSpan = document.createElement('span');
+    document.body.appendChild(tempSpan);
+
+    // Apply the same styles as the target div to the temporary span
+    tempSpan.style.visibility = 'hidden';
+    tempSpan.style.whiteSpace = 'nowrap';
+    tempSpan.style.font = window.getComputedStyle(div).font;
+
+    let finalText = '';
+    let currentLine = '';
+
+    const words = text;
+
+    for (let i = 0; i < words.length; i++) {
+        let word = words[i]
+        tempSpan.innerText = currentLine + word;
+
+        if (tempSpan.offsetWidth > maxWidth) {
+            // console.log(words[i - 2], words[i - 1], words[i], words[i + 1])
+            // Move the current word to the next line
+            if (words[i - 2] == " " && words[i - 1] !== " ") {
+                finalText += currentLine.trim().slice(0, -1) + '<br>';
+                currentLine = currentLine.trim().slice(-1) + word + '';
+            }
+            else if (words[i] !== " " && words[i + 1] == " ") {
+                finalText += currentLine.trim() + words[i] + '<br>';
+                currentLine = words[i + 1] + '';
+            }
+            else if (words[i - 1] != " " && words[i] != "?") {
+                finalText += currentLine.trim() + '-<br>';
+                currentLine = word + '';
+            }
+            else {
+                finalText += currentLine.trim() + '<br>';
+                currentLine = word + '';
+            }
+
+        } else {
+            currentLine += word;
+        }
+    }
+
+    // Add the last line
+    finalText += currentLine.trim();
+
+    document.body.removeChild(tempSpan);
+    return finalText;
 }
 // Helper function to convert text to list items
 function convertToList(content) {
