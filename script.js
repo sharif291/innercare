@@ -317,7 +317,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-            <div class="page-footer">Page 1. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page 1.</span> Copyright 2024 Mypaper.uk</div>
         `;
         page1.innerHTML += footer;
 
@@ -365,7 +365,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-            <div class="page-footer">Page 2. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page 2.</span> Copyright 2024 Mypaper.uk</div>
         `;
         page2.innerHTML += footer;
 
@@ -398,7 +398,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-            <div class="page-footer">Page 3. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page 3.</span> Copyright 2024 Mypaper.uk</div>
         `;
         page3.innerHTML += footer;
 
@@ -461,7 +461,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-            <div class="page-footer">Page 4. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page 4.</span> Copyright 2024 Mypaper.uk</div>
         `;
         page4.innerHTML += footer;
 
@@ -493,7 +493,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-            <div class="page-footer">Page 5. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page 5.</span> Copyright 2024 Mypaper.uk</div>
         `;
         page5.innerHTML += footer;
 
@@ -538,7 +538,7 @@ function previewNewspaper() {
 
         // Add footer
         let footer = `
-                <div class="page-footer">Page 6. Copyright 2024 Mypaper.uk</div>
+                <div class="page-footer"><span class="page-number">Page 6.</span> Copyright 2024 Mypaper.uk</div>
             `;
         page6.innerHTML += footer;
 
@@ -607,7 +607,7 @@ function previewNewspaper() {
             page.innerHTML = `
             <h3>Carer's Section - Part ${index + 1}</h3>
             <div id="carerSection${index + 1}Content">${content}</div>
-            <div class="page-footer">Page ${index + 7}. Copyright 2024 Mypaper.uk</div>
+            <div class="page-footer"><span class="page-number">Page ${index + 7}.</span> Copyright 2024 Mypaper.uk</div>
         `;
             addLogoToPage(page);
             return page;

@@ -267,6 +267,9 @@ button:hover {
   display: table;
   clear: both;
 }
+.page-footer .page-number {
+  font-weight: 800;
+}
 
 /* Action buttons */
 .action-buttons {
@@ -617,6 +620,9 @@ button:hover {
 
   .page-footer {
     font-size: 14px !important; /* Example specific to your .page-footer */
+  }
+  .page-footer .page-number {
+    font-weight: 800;
   }
 
   /* Specific styles for .page4 .grid-container .grid-item */
