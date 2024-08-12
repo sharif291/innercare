@@ -606,7 +606,7 @@ function previewNewspaper() {
             page.classList.add('page', `page${index + 7}`);
             page.innerHTML = `
             <h3>Carer's Section - Part ${index + 1}</h3>
-            <div id="carerSection${index + 1}Content">${content}</div>
+            <div class="carerSectionContent" id="carerSection${index + 1}Content">${content}</div>
             <div class="page-footer"><span class="page-number">Page ${index + 7}.</span> Copyright 2024 Mypaper.uk</div>
         `;
             addLogoToPage(page);
@@ -682,6 +682,7 @@ async function exportToPDF() {
                 .page4 .section-preview:first-child img {
                     margin-bottom: 7mm !important;
                 }
+                .page6 .section-preview img { object-fit: cover; }
                 .page2 { display: flex !important; flex-direction: column !important; height: 297mm !important; width: 210mm !important; padding: 14mm !important; }
                 .page2 .page2-section { height: 50% !important; display: flex !important; flex-direction: column !important; margin-bottom: 7mm !important; }
                 .page2 .section-content { display: flex !important; flex-grow: 1 !important; }
