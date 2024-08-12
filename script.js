@@ -102,11 +102,33 @@ function handleLogoUpload(event) {
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
 
-                // Set canvas dimensions to increase the resolution
+                // Desired output dimensions in cm
+                const targetWidthCm = 6;
+                const targetHeightCm = 2;
+
+                // Convert cm to pixels based on 300 DPI
                 const dpi = 300;
-                const scaleFactor = dpi / 72;
-                canvas.width = img.width * scaleFactor;
-                canvas.height = img.height * scaleFactor;
+                const targetWidthPx = (targetWidthCm / 2.54) * dpi;
+                const targetHeightPx = (targetHeightCm / 2.54) * dpi;
+
+                // Calculate aspect ratio of the image
+                const imgAspectRatio = img.width / img.height;
+                const targetAspectRatio = targetWidthPx / targetHeightPx;
+
+                let drawWidth, drawHeight;
+                if (imgAspectRatio > targetAspectRatio) {
+                    // Image is wider relative to the target dimensions
+                    drawWidth = targetWidthPx;
+                    drawHeight = drawWidth / imgAspectRatio;
+                } else {
+                    // Image is taller relative to the target dimensions
+                    drawHeight = targetHeightPx;
+                    drawWidth = drawHeight * imgAspectRatio;
+                }
+
+                // Set canvas dimensions based on calculated size
+                canvas.width = drawWidth;
+                canvas.height = drawHeight;
 
                 // Draw the image on the canvas
                 context.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -115,17 +137,20 @@ function handleLogoUpload(event) {
                 const dataUrl = canvas.toDataURL('image/png');
                 document.getElementById('logoImage').value = dataUrl;
 
-                // Display the image at its original size
+                // Display the image at the correct size
                 const logoImgElement = document.getElementById('logoPreview');
                 logoImgElement.src = dataUrl;
-                logoImgElement.style.width = `${img.width}px`;
-                logoImgElement.style.height = `${img.height}px`;
+
+                // Ensure the preview maintains the original aspect ratio but fits within the 6cm by 2cm box
+                logoImgElement.style.width = `${(canvas.width / dpi) * 2.54}cm`;
+                logoImgElement.style.height = `${(canvas.height / dpi) * 2.54}cm`;
             }
             img.src = e.target.result;
         }
         reader.readAsDataURL(file);
     }
 }
+
 function updateLineCount(textarea) {
     const maxLines = 8;
     const lines = textarea.value.split('\n');
@@ -489,42 +514,6 @@ function previewNewspaper() {
             // Load the image before adding the section
             loadSectionImage(i);
             if (i == 10) {
-                // const paragraphs = sectionContent.split(/(?<=[.?!])\s+(?=[A-Z])/g);
-                // // Create a temporary container to measure the content
-                // const tempContainer = document.createElement('div');
-                // tempContainer.style.position = 'absolute';
-                // tempContainer.style.visibility = 'hidden';
-                // tempContainer.style.width = '190mm';  // A4 width minus padding
-                // tempContainer.style.fontSize = '12pt';
-                // tempContainer.style.lineHeight = '1.5';
-                // document.body.appendChild(tempContainer);
-
-                // // Function to measure height of content
-                // const measureHeight = (content) => {
-                //     tempContainer.innerHTML = content;
-                //     return tempContainer.offsetHeight;
-                // };
-                // let part1 = '';
-                // let part2 = '';
-                // // Calculate the total height needed for all paragraphs
-                // let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`${para}`), 0);
-                // console.log("totla height", totalHeight)
-                // const maxHeightPerPage = 120; // Increased height in mm for content area
-                // // Calculate the height limit for part1 to ensure balanced content
-                // let part1HeightLimit = maxHeightPerPage
-                // // let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
-                // // Distribute content across two parts with a balanced split
-                // let currentHeight = 0;
-                // for (let para of paragraphs) {
-                //     let content = para + ".";
-                //     const paraHeight = measureHeight(content);
-                //     if (currentHeight + paraHeight <= part1HeightLimit) {
-                //         part1 += content;
-                //         currentHeight += paraHeight;
-                //     } else {
-                //         part2 += content;
-                //     }
-                // }
                 let sectionHTML = `<div class="section-preview">
                 <h3>${sectionTitle}</h3>
                 ${sectionImage ? `<img src="${sectionImage}" alt="${sectionTitle} Image">` : ''}
@@ -558,148 +547,10 @@ function previewNewspaper() {
 
     }
 
-    // function createPages7And8() {
-    //     const carerContent = document.getElementById('carerContent').value;
-    //     const paragraphs = carerContent.split('\n\n');
-    //     // Create a temporary container to measure the content
-    //     const tempContainer = document.createElement('div');
-    //     tempContainer.style.position = 'absolute';
-    //     tempContainer.style.visibility = 'hidden';
-    //     tempContainer.style.width = '190mm';  // A4 width minus padding
-    //     tempContainer.style.fontSize = '12pt';
-    //     tempContainer.style.lineHeight = '1.5';
-    //     document.body.appendChild(tempContainer);
-
-    //     // Function to measure height of content
-    //     const measureHeight = (content) => {
-    //         tempContainer.innerHTML = content;
-    //         return tempContainer.offsetHeight;
-    //     };
-
-    //     let part1 = '';
-    //     let part2 = '';
-    //     const maxHeightPerPage = 550; // Increased height in mm for content area
-
-    //     // Calculate the total height needed for all paragraphs
-    //     let totalHeight = paragraphs.reduce((sum, para) => sum + measureHeight(`<p>${marked(para)}</p>`), 0);
-    //     console.log("totla height", totalHeight)
-    //     // Calculate the height limit for part1 to ensure balanced content
-    //     // let part1HeightLimit = Math.min(maxHeightPerPage, totalHeight / 2);
-    //     let part1HeightLimit = maxHeightPerPage
-
-    //     // Distribute content across two parts with a balanced split
-    //     let currentHeight = 0;
-    //     for (let para of paragraphs) {
-    //         let content = `<p>${para}</p>`;
-    //         content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>')
-
-    //         const paraHeight = measureHeight(content);
-
-    //         if (currentHeight + paraHeight <= part1HeightLimit) {
-    //             part1 += content;
-    //             currentHeight += paraHeight;
-    //         } else {
-    //             part2 += content;
-    //         }
-    //     }
-
-    //     document.body.removeChild(tempContainer);
-
-    //     // Create Page 7
-    //     let page7 = document.createElement('div');
-    //     page7.classList.add('page', 'page7');
-    //     page7.innerHTML = `
-    //         <h3>Carer's Section - Part 1</h3>
-    //         <div id="carerSection1Content">${part1}</div>
-    //         <div class="page-footer">Page 7. Copyright 2024 Mypaper.uk</div>
-    //     `;
-    //     addLogoToPage(page7);
-
-    //     // Create Page 8
-    //     let page8 = document.createElement('div');
-    //     page8.classList.add('page', 'page8');
-    //     page8.innerHTML = `
-    //         <h3>Carer's Section - Part 2</h3>
-    //         <div id="carerSection2Content">${part2}</div>
-    //         <div class="page-footer">Page 8. Copyright 2024 Mypaper.uk</div>
-    //     `;
-    //     addLogoToPage(page8)
-
-    //     return [page7, page8];
-    // }
-
-
-
-    // function createPages7And8() {
-    //     const carerContent = document.getElementById('carerContent').value;
-    //     const paragraphs = carerContent.split('\n\n');
-
-    //     // Create a temporary container to measure the content
-    //     const tempContainer = document.createElement('div');
-    //     tempContainer.style.position = 'absolute';
-    //     tempContainer.style.visibility = 'hidden';
-    //     tempContainer.style.width = '190mm';  // A4 width minus padding
-    //     tempContainer.style.fontSize = '12pt';
-    //     tempContainer.style.lineHeight = '1.5';
-    //     document.body.appendChild(tempContainer);
-
-    //     // Function to measure height of content
-    //     const measureHeight = (content) => {
-    //         tempContainer.innerHTML = content;
-    //         return tempContainer.offsetHeight;
-    //     };
-
-    //     const maxHeightPerPage = 550; // Max height in mm for content area
-    //     let currentHeight = 0;
-    //     let pageContents = [];
-    //     let currentPageContent = '';
-
-    //     // Iterate over each paragraph to distribute across pages
-    //     paragraphs.forEach(para => {
-    //         let content = `<p>${para}</p>`;
-    //         content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>');
-
-    //         const paraHeight = measureHeight(content);
-
-    //         if (currentHeight + paraHeight > maxHeightPerPage) {
-    //             // If adding this paragraph exceeds the page height, start a new page
-    //             pageContents.push(currentPageContent);
-    //             currentPageContent = content;
-    //             currentHeight = paraHeight;
-    //         } else {
-    //             // Otherwise, add the paragraph to the current page
-    //             currentPageContent += content;
-    //             currentHeight += paraHeight;
-    //         }
-    //     });
-
-    //     // Add the last page content if there is any left
-    //     if (currentPageContent) {
-    //         pageContents.push(currentPageContent);
-    //     }
-
-    //     document.body.removeChild(tempContainer);
-
-    //     // Create pages dynamically based on the content
-    //     let pages = pageContents.map((content, index) => {
-    //         let page = document.createElement('div');
-    //         page.classList.add('page', `page${index + 7}`);
-    //         page.innerHTML = `
-    //             <h3>Carer's Section - Part ${index + 1}</h3>
-    //             <div id="carerSection${index + 1}Content">${content}</div>
-    //             <div class="page-footer">Page ${index + 7}. Copyright 2024 Mypaper.uk</div>
-    //         `;
-    //         addLogoToPage(page);
-    //         return page;
-    //     });
-
-    //     return pages;
-    // }
-
     function createPages7And8() {
         const carerContent = document.getElementById('carerContent').value;
         const paragraphs = carerContent.split('\n\n');
-    
+
         // Create a temporary container to measure the content
         const tempContainer = document.createElement('div');
         tempContainer.style.position = 'absolute';
@@ -708,25 +559,25 @@ function previewNewspaper() {
         tempContainer.style.fontSize = '12pt';
         tempContainer.style.lineHeight = '1.5';
         document.body.appendChild(tempContainer);
-    
+
         // Function to measure height of content
         const measureHeight = (content) => {
             tempContainer.innerHTML = content;
             return tempContainer.offsetHeight;
         };
-    
-        const maxHeightPerPage = 500; // Max height in mm for content area
+
+        const maxHeightPerPage = 550; // Max height in mm for content area
         let currentHeight = 0;
         let pageContents = [];
         let currentPageContent = '';
-    
+
         // Iterate over each paragraph to distribute across pages
         paragraphs.forEach(para => {
             let content = `<p>${para}</p>`;
             content = content.replace(/#\d+\./, '<span class="list-title">').replace('\n', '</span>');
-    
+
             const paraHeight = measureHeight(content);
-    
+
             // Check if adding this paragraph will exceed the page height
             if (currentHeight + paraHeight > maxHeightPerPage) {
                 // If adding the entire paragraph exceeds the page height,
@@ -741,30 +592,30 @@ function previewNewspaper() {
                 currentHeight += paraHeight;
             }
         });
-    
+
         // Add the last page content if there is any left
         if (currentPageContent) {
             pageContents.push(currentPageContent);
         }
-    
+
         document.body.removeChild(tempContainer);
-    
+
         // Create pages dynamically based on the content
         let pages = pageContents.map((content, index) => {
             let page = document.createElement('div');
             page.classList.add('page', `page${index + 7}`);
             page.innerHTML = `
-                <h3>Carer's Section - Part ${index + 1}</h3>
-                <div id="carerSection${index + 1}Content" class="carerSectionContent">${content}</div>
-                <div class="page-footer">Page ${index + 7}. Copyright 2024 Mypaper.uk</div>
-            `;
+            <h3>Carer's Section - Part ${index + 1}</h3>
+            <div id="carerSection${index + 1}Content">${content}</div>
+            <div class="page-footer">Page ${index + 7}. Copyright 2024 Mypaper.uk</div>
+        `;
             addLogoToPage(page);
             return page;
         });
-    
+
         return pages;
     }
-    
+
 
     // Create pages
     let pages = [createPage1(), createPage2(), createPage3(), createPage4(), createPage5(), createPage6(), ...createPages7And8()];
