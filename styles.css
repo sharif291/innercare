@@ -192,7 +192,7 @@ button:hover {
   font-size: 20px;
   line-height: 1.4;
   text-align: justify !important;
-  hyphens: auto;
+  /* hyphens: auto; */
 }
 .page6 .section-preview {
   margin-bottom: 20px;
