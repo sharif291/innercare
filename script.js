@@ -689,8 +689,8 @@ function previewNewspaper() {
             <div class="carerSectionContent" id="carerSection${index + 1}Content">${content}</div>
             <div class="page-footer"><span class="page-number">Page ${index + 7}.</span> Copyright 2024 Mypaper.uk</div>
         `;
-            // if (index == pageContents.length - 1)
-            addLogoToPage(page);
+            if (index == pageContents.length - 1)
+                addLogoToPage(page);
             return page;
         });
 
