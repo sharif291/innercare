@@ -646,7 +646,7 @@ function previewNewspaper() {
             return tempContainer.offsetHeight;
         };
 
-        const maxHeightPerPage = 500; // Max height in mm for content area
+        const maxHeightPerPage = 460; // Max height in mm for content area
         let currentHeight = 0;
         let pageContents = [];
         let currentPageContent = '';
@@ -689,6 +689,7 @@ function previewNewspaper() {
             <div class="carerSectionContent" id="carerSection${index + 1}Content">${content}</div>
             <div class="page-footer"><span class="page-number">Page ${index + 7}.</span> Copyright 2024 Mypaper.uk</div>
         `;
+            // if (index == pageContents.length - 1)
             addLogoToPage(page);
             return page;
         });
