@@ -531,6 +531,9 @@ button:hover {
   font-size: 18px;
   line-height: 1.2;
 }
+.date-location-container .location {
+  font-weight: 800;
+}
 
 .page5,
 .page6 {
@@ -739,6 +742,9 @@ button:hover {
     margin: 0;
     font-size: 18px !important;
     line-height: 1;
+  }
+  .date-location-container .location {
+    font-weight: 800;
   }
 }
 

@@ -365,7 +365,7 @@ function previewNewspaper() {
                 </div>
             </div>
             <div class="date-location-container">
-                <p>${location}</p>
+                <p class="location">${location}</p>
                 <p>${date}</p>
             </div>
         `;
