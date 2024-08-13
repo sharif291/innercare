@@ -540,7 +540,7 @@ button:hover {
 
 .carerSectionContent {
   overflow: hidden;
-  /* height: 240mm; */
+  height: 240mm;
   padding: 0mm; /* Add some padding inside the content area */
 }
 

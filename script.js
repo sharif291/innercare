@@ -646,7 +646,7 @@ function previewNewspaper() {
             return tempContainer.offsetHeight;
         };
 
-        const maxHeightPerPage = 550; // Max height in mm for content area
+        const maxHeightPerPage = 500; // Max height in mm for content area
         let currentHeight = 0;
         let pageContents = [];
         let currentPageContent = '';
